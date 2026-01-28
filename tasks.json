@@ -1,6 +1,10 @@
 /******
-       at_mobiles: 填入你要 @ 的人的手机号（钉钉通过手机号匹配成员）。
+       at_mobiles: 填入你要 @ 的人的手机号。
        is_at_all: 设置为 true 则会 @ 所有人。
+       time: 选填。格式 "HH:MM"。如果不填，则当天每次运行都会发送（慎用）。
+             如果填了，脚本会检查当前时间是否在 "设定时间" 到 "设定时间+15分钟" 之间。
+       content_type: 选填。默认为 "static" (静态文本)。
+                     设为 "crawler" 可启用爬虫模式 (需在 main.py 定义逻辑)。
 ******/
 [
     {
@@ -15,5 +19,14 @@
         "content": "情人节到了，祝大家节日快乐！",
         "at_mobiles": [],
         "is_at_all": true
+    },
+    {
+        "date": "2026-01-29",
+        "time": "09:00",
+        "content_type": "crawler",
+        "source_url": "https://www.example.com",
+        "title": "每日新闻播报",
+        "at_mobiles": [],
+        "is_at_all": false
     }
 ]
