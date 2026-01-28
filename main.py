@@ -6,6 +6,7 @@ import base64
 import urllib.parse
 import requests
 import json
+import re
 from datetime import datetime
 
 # 从环境变量读取（请在 Gitee 变量管理中配置）
@@ -46,7 +47,9 @@ def run_scheduler():
 
     # 读取任务列表
     with open('tasks.json', 'r', encoding='utf-8') as f:
-        tasks = json.load(f)
+        text = f.read()
+        text = re.sub(r'/\*.*?\*/', '', text, flags=re.S)
+        tasks = json.loads(text)
 
     found_task = False
     for task in tasks:
