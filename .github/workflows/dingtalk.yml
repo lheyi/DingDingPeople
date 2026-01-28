@@ -1,7 +1,10 @@
 name: DingTalk Scheduler
 on:
+  push:
+    branches:
+      - master
   schedule:
-    - cron: '0 1 * * *'
+    - cron: '18 8 28 1 *'
   workflow_dispatch:
 jobs:
   send:
