@@ -4,3 +4,4 @@ __pycache__/
 .idea/
 .vscode/
 *.log
+config_local.json
