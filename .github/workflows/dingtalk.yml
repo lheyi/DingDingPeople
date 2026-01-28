@@ -1,12 +1,12 @@
 name: DingTalk Scheduler
 on:
-  push:
-    branches:
-      - master
-  schedule:
-    # 每 15 分钟运行一次，配合脚本中的 15 分钟时间窗口
-    # 注意：GitHub Actions 的 cron 是 UTC 时间
-    - cron: '*/15 * * * *'
+  # push:
+  #   branches:
+  #     - master
+  # schedule:
+  #   # 每 15 分钟运行一次，配合脚本中的 15 分钟时间窗口
+  #   # 注意：GitHub Actions 的 cron 是 UTC 时间
+  #   - cron: '*/15 * * * *'
   workflow_dispatch:
 jobs:
   send:
