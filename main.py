@@ -42,6 +42,37 @@ def format_message(title, content):
 """
     return template.format(title=title, datetime=now, content=content)
 
+def run_crawler(task):
+    """
+    【扩展接口】爬虫/外部数据源逻辑
+    后续可在此处调用 requests/BeautifulSoup 爬取网站信息
+    """
+    source = task.get('source_url', '未知来源')
+    return f"正在从 {source} 获取数据... (功能开发中)\n\n这是一个动态生成的内容示例。"
+
+def get_task_content(task):
+    """
+    根据任务配置获取最终发送的内容
+    支持静态文本和动态获取（如爬虫）
+    """
+    # 默认为 'static' 静态文本
+    content_type = task.get('content_type', 'static')
+    
+    if content_type == 'static':
+        return task.get('content', '无内容')
+    elif content_type == 'crawler':
+        return run_crawler(task)
+    # 未来可扩展其他类型，如 'file', 'api' 等
+    elif content_type == 'file':
+        # 示例：从文件读取
+        file_path = task.get('file_path')
+        if file_path and os.path.exists(file_path):
+            with open(file_path, 'r', encoding='utf-8') as f:
+                return f.read()
+        return "错误：指定的文件不存在"
+        
+    return f"未知的任务类型: {content_type}"
+
 def load_local_config():
     path = 'config_local.json'
     if os.path.exists(path):
@@ -130,11 +161,11 @@ def run_scheduler():
             md_text = (
                 tpl.replace('{{title}}', title)
                    .replace('{{datetime}}', now.strftime('%Y-%m-%d %H:%M:%S'))
-                   .replace('{{content}}', task['content'])
+                   .replace('{{content}}', final_content)
                    .replace('{{mentions}}', mentions_text)
             )
         else:
-            md_text = format_message(title, task['content'])
+            md_text = format_message(title, final_content)
         
         send_markdown_msg(
             markdown_text=md_text,
